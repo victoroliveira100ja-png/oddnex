@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Master Admin - OddMax VIP</title>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <style>
+        :root { --primary: #7d33ff; --bg: #05070a; --card: #111418; --border: #1f242c; --green: #2ecc71; --red: #ff4757; --live: #f1c40f; }
+        body { background: var(--bg); color: white; font-family: 'Inter', sans-serif; margin: 0; display: flex; height: 100vh; }
+        .sidebar-form { width: 400px; background: var(--card); border-right: 1px solid var(--border); padding: 30px; overflow-y: auto; box-sizing: border-box; }
+        .main-list { flex: 1; padding: 30px; overflow-y: auto; }
+        h2 { color: var(--primary); text-align: center; text-transform: uppercase; font-size: 18px; margin-bottom: 20px; letter-spacing: 1px; }
+        .form-group { margin-bottom: 15px; }
+        label { font-size: 11px; color: #8b949e; font-weight: bold; margin-bottom: 5px; display: block; text-transform: uppercase; }
+        input, select, textarea { width: 100%; padding: 12px; background: #05070a; border: 1px solid var(--border); border-radius: 8px; color: white; outline: none; box-sizing: border-box; font-size: 14px; }
+        input:focus, select:focus, textarea:focus { border-color: var(--primary); }
+        .btn-postar { width: 100%; padding: 16px; background: var(--primary); color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 10px; text-transform: uppercase; }
+        .card-manage { background: var(--card); border: 1px solid var(--border); padding: 15px; border-radius: 12px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; }
+        .btn-delete { background: var(--red); color: white; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer; font-size: 10px; font-weight: bold; margin-left: 5px; }
+        .btn-edit { background: #3498db; color: white; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer; font-size: 10px; font-weight: bold; }
+        /* ESTILO DA BUSCA */
+        .search-admin { margin-bottom: 20px; position: sticky; top: 0; z-index: 10; background: var(--bg); padding-bottom: 10px; }
+        .search-admin input { border-color: var(--primary); }
+    </style>
+</head>
+<body>
+    <div class="sidebar-form">
+        <h2 id="titulo-form">🚀 NOVO PALPITE</h2>
+        <input type="hidden" id="edit-id">
+
+        <div class="form-group">
+            <label>Jogo:</label>
+            <input type="text" id="jogo" placeholder="Ex: Flamengo x Vasco">
+        </div>
+        
+        <div class="form-group">
+            <label>Campeonato:</label>
+            <select id="campeonato">
+                <optgroup label="BRASIL">
+                    <option value="Brasileirão Série A">Brasileirão Série A</option>
+                    <option value="Brasileirão Série B">Brasileirão Série B</option>
+                    <option value="Copa do Brasil">Copa do Brasil</option>
+                </optgroup>
+                <optgroup label="ESTADUAIS">
+                    <option value="Paulista">Paulista</option>
+                    <option value="Carioca">Carioca</option>
+                    <option value="Mineiro">Mineiro</option>
+                    <option value="Gaúcho">Gaúcho</option>
+                </optgroup>
+                <optgroup label="EUROPA">
+                    <option value="Premier League">Premier League</option>
+                    <option value="La Liga">La Liga</option>
+                    <option value="Bundesliga">Bundesliga</option>
+                    <option value="Ligue 1">Ligue 1</option>
+                    <option value="Serie A Itália">Serie A Itália</option>
+                    <option value="Champions League">Champions League</option>
+                </optgroup>
+                <optgroup label="COPAS">
+                    <option value="Libertadores">Libertadores</option>
+                    <option value="Sulamericana">Sulamericana</option>
+                    <option value="Copa do Mundo">Copa do Mundo</option>
+                </optgroup>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Rodada / Fase:</label>
+            <select id="rodada">
+                <option value="">Selecione...</option>
+                <script>
+                    for(let i=1; i<=38; i++) {
+                        document.write(`<option value="${i}">Rodada ${i}</option>`);
+                    }
+                </script>
+                <optgroup label="MATA-MATA">
+                    <option value="Oitavas">Oitavas de Final</option>
+                    <option value="Quartas">Quartas de Final</option>
+                    <option value="Semi">Semi-Final</option>
+                    <option value="Final">Grande Final</option>
+                </optgroup>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Entrada Sugerida:</label>
+            <input type="text" id="entrada" placeholder="Ex: Over 2.5 Gols">
+        </div>
+        
+        <div style="display:flex; gap:10px;">
+            <div style="flex:1;"><label>Odd:</label><input type="text" id="odd" placeholder="1.80"></div>
+            <div style="flex:1;"><label>Confiança %:</label><input type="number" id="chance" placeholder="90"></div>
+        </div>
+
+        <div style="display:flex; gap:10px; margin-top:10px;">
+            <div style="flex:1;"><label>Horário:</label><input type="text" id="horario" placeholder="16:00"></div>
+            <div style="flex:1;"><label>Data:</label><input type="date" id="data_jogo"></div>
+        </div>
+
+        <div class="form-group" style="margin-top:10px;">
+            <label>Nível de Risco:</label>
+            <select id="risco">
+                <option value="Baixo">Baixo</option>
+                <option value="Médio" selected>Médio</option>
+                <option value="Alto">Alto</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Análise Técnica:</label>
+            <textarea id="analise" rows="3"></textarea>
+        </div>
+
+        <button class="btn-postar" id="btn-acao" onclick="salvarPalpite()">PUBLICAR AGORA</button>
+        <button id="btn-cancelar" style="display:none; background:gray; margin-top:5px;" class="btn-postar" onclick="resetarFormulario()">CANCELAR EDIÇÃO</button>
+    </div>
+
+    <div class="main-list">
+        <h2>📊 GESTÃO ATIVA</h2>
+        
+        <div class="search-admin">
+            <input type="text" id="buscaAdmin" placeholder="🔍 Pesquisar por time ou campeonato..." onkeyup="renderizarLista()">
+        </div>
+
+        <div id="lista-admin"></div>
+    </div>
+
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyACqz98WONOsFwK9mP2udGfYI6a7H8bwO0",
+            authDomain: "oddmax-2004b.firebaseapp.com",
+            projectId: "oddmax-2004b",
+            storageBucket: "oddmax-2004b.firebasestorage.app",
+            messagingSenderId: "317240346694",
+            appId: "1:317240346694:web:e551215b1cf64d58246247"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        let todosPalpites = [];
+
+        async function salvarPalpite() {
+            const id = document.getElementById('edit-id').value;
+            const dados = {
+                jogo: document.getElementById('jogo').value,
+                campeonato: document.getElementById('campeonato').value,
+                rodada: document.getElementById('rodada').value,
+                entrada: document.getElementById('entrada').value,
+                odd: document.getElementById('odd').value,
+                chance: document.getElementById('chance').value,
+                horario: document.getElementById('horario').value,
+                data_jogo: document.getElementById('data_jogo').value,
+                risco: document.getElementById('risco').value,
+                analise: document.getElementById('analise').value,
+                status: 'ABERTO',
+                criadoEm: firebase.firestore.FieldValue.serverTimestamp()
+            };
+
+            if (id) {
+                await db.collection('palpites').doc(id).update(dados);
+                alert("✏️ Palpite atualizado!");
+            } else {
+                await db.collection('palpites').add(dados);
+                alert("✅ Publicado com sucesso!");
+            }
+            resetarFormulario();
+        }
+
+        function prepararEdicao(id, p) {
+            document.getElementById('edit-id').value = id;
+            document.getElementById('jogo').value = p.jogo;
+            document.getElementById('campeonato').value = p.campeonato;
+            document.getElementById('rodada').value = p.rodada || "";
+            document.getElementById('entrada').value = p.entrada;
+            document.getElementById('odd').value = p.odd;
+            document.getElementById('chance').value = p.chance;
+            document.getElementById('horario').value = p.horario;
+            document.getElementById('data_jogo').value = p.data_jogo;
+            document.getElementById('risco').value = p.risco || "Médio";
+            document.getElementById('analise').value = p.analise;
+            
+            document.getElementById('titulo-form').innerText = "✏️ EDITANDO JOGO";
+            document.getElementById('btn-acao').innerText = "SALVAR ALTERAÇÕES";
+            document.getElementById('btn-cancelar').style.display = "block";
+            window.scrollTo(0,0);
+        }
+
+        function resetarFormulario() {
+            document.getElementById('edit-id').value = "";
+            document.getElementById('titulo-form').innerText = "🚀 NOVO PALPITE";
+            document.getElementById('btn-acao').innerText = "PUBLICAR AGORA";
+            document.getElementById('btn-cancelar').style.display = "none";
+            const campos = ['jogo','entrada','odd','chance','horario','data_jogo','analise'];
+            campos.forEach(c => document.getElementById(c).value = "");
+            document.getElementById('rodada').value = "";
+        }
+
+        // Snapshot modificado para funcionar com a barra de busca
+        db.collection('palpites').orderBy('criadoEm', 'desc').onSnapshot(snap => {
+            todosPalpites = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            renderizarLista();
+        });
+
+        function renderizarLista() {
+            const container = document.getElementById('lista-admin');
+            const termoBusca = document.getElementById('buscaAdmin').value.toLowerCase();
+            container.innerHTML = '';
+
+            const filtrados = todosPalpites.filter(p => {
+                return p.jogo.toLowerCase().includes(termoBusca) || 
+                       p.campeonato.toLowerCase().includes(termoBusca);
+            });
+
+            filtrados.forEach(p => {
+                const pJson = JSON.stringify(p).replace(/"/g, '&quot;');
+                container.innerHTML += `
+                    <div class="card-manage">
+                        <div>
+                            <b>${p.jogo}</b> <small style="color:#8b949e">(${p.rodada || 'S/R'})</small><br>
+                            <small style="color:var(--primary)">${p.campeonato}</small><br>
+                            <select onchange="atualizarStatus('${p.id}', this.value)" style="width:110px; padding:3px; font-size:11px; margin-top:5px;">
+                                <option value="ABERTO" ${p.status === 'ABERTO' ? 'selected' : ''}>⏳ Aberto</option>
+                                <option value="AO VIVO" ${p.status === 'AO VIVO' ? 'selected' : ''}>🔥 Ao Vivo</option>
+                                <option value="GREEN" ${p.status === 'GREEN' ? 'selected' : ''}>✅ Green</option>
+                                <option value="RED" ${p.status === 'RED' ? 'selected' : ''}>❌ Red</option>
+                            </select>
+                        </div>
+                        <div>
+                            <button class="btn-edit" onclick='prepararEdicao("${p.id}", ${pJson})'>EDITAR</button>
+                            <button class="btn-delete" onclick="deletar('${p.id}')">EXCLUIR</button>
+                        </div>
+                    </div>`;
+            });
+        }
+
+        async function atualizarStatus(id, st) { await db.collection('palpites').doc(id).update({ status: st }); }
+        async function deletar(id) { if(confirm("Apagar palpite permanentemente?")) await db.collection('palpites').doc(id).delete(); }
+    </script>
+</body>
+</html>

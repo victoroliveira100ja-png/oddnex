@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OddMax VIP - Dashboard Profissional</title>
+
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+
+<style>
+:root { --primary: #7d33ff; --bg: #0b0e11; --card-bg: #1a1d23; --border: #2d333b; --green: #00ff9d; --red: #ff4d4d; --text: #ffffff; }
+body { margin: 0; font-family: 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; }
+
+/* HEADER */
+.header { display: flex; justify-content: space-between; align-items: center; padding: 12px 25px; background: #161b22; border-bottom: 2px solid var(--primary); position: sticky; top: 0; z-index: 1000; }
+.header h2 { margin: 0; font-size: 20px; color: var(--primary); font-weight: 800; }
+
+/* CALENDÁRIO FLASHSCORE */
+.calendar-bar { display: flex; background: #1c2128; padding: 10px; border-bottom: 1px solid var(--border); overflow-x: auto; gap: 10px; justify-content: center; }
+.day-btn { padding: 8px 15px; border-radius: 6px; background: transparent; border: 1px solid var(--border); color: #8b949e; cursor: pointer; text-align: center; min-width: 65px; font-size: 12px; }
+.day-btn span { display: block; font-weight: bold; font-size: 16px; }
+.day-btn.active { background: var(--primary); border-color: var(--primary); color: white; }
+
+/* LAYOUT */
+.container { display: flex; min-height: 100vh; }
+
+/* SIDEBAR */
+.sidebar { width: 260px; background: #0f1318; padding: 20px 15px; border-right: 1px solid var(--border); height: calc(100vh - 120px); overflow-y: auto; position: sticky; top: 120px; }
+.sidebar h3 { font-size: 11px; color: #8b949e; margin: 20px 0 10px 5px; text-transform: uppercase; letter-spacing: 1px; }
+.sidebar button { width: 100%; margin-bottom: 5px; padding: 10px 12px; background: transparent; border: none; color: #cfcfcf; border-radius: 8px; cursor: pointer; text-align: left; transition: 0.2s; font-size: 14px; }
+.sidebar button:hover { background: rgba(125, 51, 255, 0.1); color: var(--primary); }
+.sidebar button.active { background: var(--primary); color: white; font-weight: bold; }
+
+/* MAIN CONTENT */
+.main { flex: 1; padding: 20px; }
+.league-header { background: #2d333b; padding: 8px 15px; font-size: 12px; font-weight: bold; border-radius: 4px; margin: 20px 0 10px; color: #adbac7; text-transform: uppercase; display: flex; align-items: center; gap: 8px; }
+.card-jogo { background: var(--card-bg); border-bottom: 1px solid #2d333b; display: flex; align-items: center; padding: 15px; transition: 0.2s; }
+.card-jogo:hover { background: #22272e; }
+.game-time { width: 60px; font-size: 13px; color: #8b949e; font-weight: bold; }
+.game-info { flex: 1; padding: 0 15px; }
+.game-info strong { font-size: 16px; display: block; margin-bottom: 3px; }
+.game-info span { font-size: 13px; color: var(--green); font-weight: bold; }
+
+.star-btn { cursor: pointer; font-size: 22px; filter: grayscale(1); transition: 0.2s; padding: 5px; }
+.star-btn.active { filter: grayscale(0); transform: scale(1.1); }
+
+/* BADGES RESULTADOS */
+.badge-res { padding: 3px 8px; border-radius: 4px; font-size: 10px; margin-left: 10px; font-weight: 900; }
+.win { background: var(--green); color: #000; }
+.loss { background: var(--red); color: #fff; }
+
+/* FOOTER */
+footer { margin-top: 60px; padding: 30px; text-align: center; border-top: 1px solid var(--border); color: #8b949e; font-size: 13px; }
+footer a { color: var(--primary); text-decoration: none; font-weight: bold; }
+
+@media (max-width: 768px) { 
+    .container { flex-direction: column; } 
+    .sidebar { width: 100%; height: auto; border-right: none; position: relative; top: 0; } 
+}
+</style>
+</head>
+
+<body onload="conectarBanco()">
+
+<div class="header">
+  <h2>ODDMAX FLASH VIP 💎</h2>
+  <button onclick="logout()" style="background:none; border:1px solid var(--red); color:var(--red); padding:8px 15px; border-radius:8px; cursor:pointer; font-weight:bold;">SAIR</button>
+</div>
+
+<div class="calendar-bar" id="calendarBar"></div>
+
+<div class="container">
+  <div class="sidebar">
+    <button onclick="mostrarFavoritos()" style="border: 1px solid #ffd700; color: #ffd700; margin-bottom: 15px;">⭐ Meus Selecionados</button>
+    <button onclick="mudarAba('palpites')" id="aba-palpites" class="active">🎯 Palpites Ativos</button>
+    <button onclick="mudarAba('resultados')" id="aba-resultados">📊 Histórico Geral</button>
+
+    <h3>🇧🇷 Estaduais</h3>
+    <button onclick="filtrar('Paulista')">Paulista</button>
+    <button onclick="filtrar('Carioca')">Carioca</button>
+    <button onclick="filtrar('Mineiro')">Mineiro</button>
+    <button onclick="filtrar('Gaucho')">Gaúcho</button>
+
+    <h3>🇧🇷 Brasileirão</h3>
+    <button onclick="filtrar('Série A')">Série A</button>
+    <button onclick="filtrar('Série B')">Série B</button>
+
+    <h3>🌍 Europeus</h3>
+    <button onclick="filtrar('Premier League')">Premier League</button>
+    <button onclick="filtrar('La Liga')">La Liga</button>
+    <button onclick="filtrar('Bundesliga')">Bundesliga</button>
+    <button onclick="filtrar('Série A')">Série A (Itália)</button>
+
+    <h3>🏆 Copas</h3>
+    <button onclick="filtrar('Libertadores')">Libertadores</button>
+    <button onclick="filtrar('Sulamericana')">Sulamericana</button>
+    <button onclick="filtrar('Copa do Mundo')">Copa do Mundo</button>
+  </div>
+
+  <div class="main">
+    <h1 id="titulo-pagina" style="font-size: 22px; margin-bottom: 20px;">Palpites de Hoje</h1>
+    <div id="listaPalpites">Carregando...</div>
+
+    <footer>
+      <p>© 2025 OddMax VIP - Inteligência Esportiva</p>
+      <p>
+        <a href="aviso-legal.html">AVISO LEGAL</a> | 
+        <span style="color: var(--red);">+18 Jogue com Responsabilidade</span>
+      </p>
+    </footer>
+  </div>
+</div>
+
+<script src="app.js"></script>
+<script>
+let todosPalpites = [];
+let abaAtual = 'palpites';
+let dataSelecionada = new Date().toLocaleDateString('pt-BR');
+let selecionadosIds = JSON.parse(localStorage.getItem("meus_palpites")) || [];
+
+function conectarBanco() {
+    gerarCalendario();
+    db.collection("palpites").orderBy("criadoEm", "desc").onSnapshot((snapshot) => {
+        todosPalpites = [];
+        snapshot.forEach(doc => {
+            let data = doc.data();
+            data.id = doc.id;
+            todosPalpites.push(data);
+        });
+        atualizarTela();
+    });
+}
+
+function gerarCalendario() {
+    const bar = document.getElementById("calendarBar");
+    bar.innerHTML = "";
+    for (let i = -1; i < 4; i++) {
+        let d = new Date();
+        d.setDate(d.getDate() + i);
+        let dataStr = d.toLocaleDateString('pt-BR');
+        let diaSem = d.toLocaleDateString('pt-BR', { weekday: 'short' }).replace('.', '').toUpperCase();
+        bar.innerHTML += `
+            <div class="day-btn ${dataStr === dataSelecionada ? 'active' : ''}" onclick="selecionarData('${dataStr}')">
+                ${diaSem}<span>${d.getDate()}</span>
+            </div>`;
+    }
+}
+
+function selecionarData(data) {
+    dataSelecionada = data;
+    abaAtual = 'palpites';
+    gerarCalendario();
+    atualizarTela();
+}
+
+function atualizarTela() {
+    let lista = todosPalpites.filter(p => {
+        let dataJ = p.dataJogo || new Date(p.criadoEm?.seconds * 1000).toLocaleDateString('pt-BR');
+        if (abaAtual === 'palpites') return dataJ === dataSelecionada && !p.resultado;
+        if (abaAtual === 'resultados') return p.resultado;
+        return true;
+    });
+    renderizar(lista);
+}
+
+function renderizar(lista) {
+    const div = document.getElementById("listaPalpites");
+    div.innerHTML = lista.length ? "" : "<p style='text-align:center; color:#8b949e; padding:50px;'>Nenhum palpite encontrado para esta seleção.</p>";
+
+    const grupos = lista.reduce((acc, p) => {
+        (acc[p.campeonato] = acc[p.campeonato] || []).push(p);
+        return acc;
+    }, {});
+
+    for (const camp in grupos) {
+        div.innerHTML += `<div class="league-header">🏆 ${camp}</div>`;
+        grupos[camp].forEach(p => {
+            const isFav = selecionadosIds.includes(p.id);
+            const badge = p.resultado ? `<span class="badge-res ${p.resultado.toLowerCase()}">${p.resultado}</span>` : "";
+            div.innerHTML += `
+                <div class="card-jogo">
+                    <div class="game-time">${p.horario || '--:--'}</div>
+                    <div class="game-info">
+                        <strong>${p.jogo} ${badge}</strong>
+                        <span>🎯 ${p.entrada} | Odd ${p.odd}</span>
+                    </div>
+                    ${!p.resultado ? `<div class="star-btn ${isFav ? 'active' : ''}" onclick="alternarSelecao('${p.id}')">⭐</div>` : ''}
+                </div>`;
+        });
+    }
+}
+
+function filtrar(camp) {
+    abaAtual = 'filtro';
+    document.getElementById("titulo-pagina").innerText = "Filtrando: " + camp;
+    const filtrados = todosPalpites.filter(p => p.campeonato.toLowerCase().includes(camp.toLowerCase()));
+    renderizar(filtrados);
+}
+
+function mudarAba(aba) {
+    abaAtual = aba;
+    document.getElementById('aba-palpites').classList.toggle('active', aba === 'palpites');
+    document.getElementById('aba-resultados').classList.toggle('active', aba === 'resultados');
+    document.getElementById("titulo-pagina").innerText = aba === 'palpites' ? "Palpites Ativos" : "Histórico de Resultados";
+    atualizarTela();
+}
+
+function mostrarFavoritos() {
+    abaAtual = 'favoritos';
+    document.getElementById("titulo-pagina").innerText = "Minha Seleção ⭐";
+    renderizar(todosPalpites.filter(p => selecionadosIds.includes(p.id)));
+}
+
+function alternarSelecao(id) {
+    if (selecionadosIds.includes(id)) selecionadosIds = selecionadosIds.filter(i => i !== id);
+    else selecionadosIds.push(id);
+    localStorage.setItem("meus_palpites", JSON.stringify(selecionadosIds));
+    atualizarTela();
+}
+
+function logout() { firebase.auth().signOut().then(() => window.location.href = 'login.html'); }
+</script>
+</body>
+</html>

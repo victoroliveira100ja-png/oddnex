@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Resultados — OddMax</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .nav-interna { display: flex; justify-content: center; gap: 20px; padding: 20px; background: #161b22; margin-bottom: 30px; position: sticky; top: 0; z-index: 100; border-bottom: 1px solid #30363d; }
+    .nav-interna a { color: white; text-decoration: none; font-weight: bold; font-size: 14px; opacity: 0.7; }
+    .nav-interna a.active { color: gold; opacity: 1; border-bottom: 2px solid gold; }
+    .btn-suporte-flutuante { position: fixed; bottom: 20px; right: 20px; background: #25d366; color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.5); z-index: 9999; border: 2px solid rgba(255,255,255,0.2); }
+  </style>
+</head>
+<body>
+<script src="js/protect-vip.js"></script>
+
+<nav class="nav-interna">
+    <a href="vip.html">🎯 PALPITES</a>
+    <a href="resultados.html" class="active">📊 RESULTADOS</a>
+    <a href="#" onclick="logout()" style="color: #ff4d4d;">🚪 SAIR</a>
+</nav>
+
+<main class="vip-content" style="max-width: 600px; margin: auto; padding: 10px;">
+  <div class="result-summary">
+    <div class="summary-card"><h3>📈 ROI</h3><span id="roi">+0%</span></div>
+    <div class="summary-card"><h3>🎯 Assertividade</h3><span id="assertividade">0%</span></div>
+    <div class="summary-card"><h3>💰 Unidades</h3><span id="unidades">0u</span></div>
+  </div>
+
+  <section id="lista-resultados"></section>
+</main>
+
+<div class="btn-suporte-flutuante" onclick="suporte()">💬</div>
+
+<script src="js/resultados.js"></script>
+<script src="js/logout.js"></script>
+<script src="js/suporte.js"></script>
+</body>
+</html>

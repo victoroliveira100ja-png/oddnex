@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>OddMax VIP — Acesso Exclusivo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Poppins:wght@700&display=swap" rel="stylesheet">
+
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+
+  <style>
+    :root {
+      --primary: #7d33ff;
+      --secondary: #00e0ff;
+      --pink: #ff4ecd;
+      --bg: #05070a;
+      --glass: rgba(13,17,23,0.75);
+      --border: rgba(255,255,255,0.15);
+      --text: #f0f6fc;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      height: 100vh;
+      background:
+        radial-gradient(circle at top left, rgba(125,51,255,0.35), transparent 45%),
+        radial-gradient(circle at bottom right, rgba(0,224,255,0.35), transparent 45%),
+        var(--bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Inter', sans-serif;
+      color: var(--text);
+    }
+
+    .login-card {
+      width: 100%;
+      max-width: 440px;
+      padding: 50px 42px;
+      background: var(--glass);
+      border: 1px solid var(--border);
+      border-radius: 30px;
+      backdrop-filter: blur(18px);
+      box-shadow:
+        0 0 0 1px rgba(255,255,255,0.04),
+        0 30px 60px rgba(0,0,0,0.7),
+        0 0 90px rgba(125,51,255,0.35);
+      text-align: center;
+      position: relative;
+    }
+
+    .login-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 180px;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--primary), var(--secondary), transparent);
+      border-radius: 50px;
+    }
+
+    .logo {
+      font-family: 'Poppins', sans-serif;
+      font-size: 36px;
+      margin-bottom: 10px;
+      letter-spacing: -1px;
+    }
+
+    .logo span {
+      background: linear-gradient(135deg, var(--primary), var(--secondary), var(--pink));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 25px rgba(125,51,255,0.6);
+    }
+
+    .subtitle {
+      font-size: 14px;
+      color: #8b949e;
+      margin-bottom: 35px;
+    }
+
+    .field {
+      text-align: left;
+      margin-bottom: 22px;
+    }
+
+    .field label {
+      display: block;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      color: #8b949e;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+
+    .field input {
+      width: 100%;
+      padding: 16px;
+      background: #010409;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      color: white;
+      font-size: 15px;
+      outline: none;
+    }
+
+    .field input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(125,51,255,0.15);
+    }
+
+    .btn-login {
+      width: 100%;
+      padding: 18px;
+      border-radius: 16px;
+      border: none;
+      font-weight: 800;
+      font-size: 15px;
+      letter-spacing: 1px;
+      cursor: pointer;
+      color: white;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      box-shadow: 0 10px 25px rgba(125,51,255,0.45);
+      margin-top: 10px;
+    }
+
+    .btn-login:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.1);
+    }
+  </style>
+</head>
+<body>
+
+<div class="login-card">
+  <div class="logo">OddMax<span>VIP</span> 💎</div>
+  <div class="subtitle">Acesso exclusivo para membros</div>
+
+  <div class="field">
+    <label>E-mail</label>
+    <input type="email" id="email" placeholder="seu@email.com">
+  </div>
+
+  <div class="field">
+    <label>Senha</label>
+    <input type="password" id="password" placeholder="••••••••">
+  </div>
+
+  <button class="btn-login" id="btn-entrar" onclick="login()">ENTRAR NA ÁREA VIP</button>
+</div>
+
+<script>
+  // Suas configurações oficiais do projeto oddmax-2004b
+  const firebaseConfig = {
+    apiKey: "AIzaSyACqz98WONOsFwK9mP2udGfYI6a7H8bwO0",
+    authDomain: "oddmax-2004b.firebaseapp.com",
+    projectId: "oddmax-2004b",
+    storageBucket: "oddmax-2004b.firebasestorage.app",
+    messagingSenderId: "317240346694",
+    appId: "1:317240346694:web:e551215b1cf64d58246247",
+    measurementId: "G-HM82SC8V3V"
+  };
+
+  // Inicializa o Firebase
+  if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
+  }
+
+  function login() {
+    // Busca os dados dos campos corretamente
+    const emailValue = document.getElementById('email').value.trim();
+    const passwordValue = document.getElementById('password').value;
+    const btn = document.getElementById('btn-entrar');
+
+    if (!emailValue || !passwordValue) {
+      alert("Por favor, preencha o e-mail e a senha.");
+      return;
+    }
+
+    btn.innerText = "VERIFICANDO...";
+    btn.disabled = true;
+
+    // Tenta fazer o login
+    firebase.auth().signInWithEmailAndPassword(emailValue, passwordValue)
+      .then(() => {
+        // Redireciona se der certo
+        window.location.href = "dashboard.html";
+      })
+      .catch((error) => {
+        // Mostra erro se falhar
+        console.error("Erro no login:", error.code);
+        alert("E-mail ou senha inválidos. Verifique se o login por e-mail está ativo no console.");
+        btn.innerText = "ENTRAR NA ÁREA VIP";
+        btn.disabled = false;
+      });
+  }
+
+  // Se já estiver logado, vai direto para o dashboard
+  firebase.auth().onAuthStateChanged(user => {
+    if (user) window.location.href = "dashboard.html";
+  });
+</script>
+
+</body>
+</html>

@@ -1,74 +1,38 @@
-<?php
-// index.php - Página inicial ODDNEX
-?>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ODDNEX</title>
 
-<title>ODDNEX | Palpites Esportivos Profissionais</title>
-
-<link rel="stylesheet" href="css/style.css">
-
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="CSS/style.css">
 
 </head>
 <body>
 
-<div class="particles"></div>
+<div class="navbar">
 
-<header class="header">
+    <div class="logo">
+        <img src="img/logo.png">
+        <span>ODDNEX</span>
+    </div>
 
-<div class="logo-area">
-
-<img src="img/logo.png" class="logo">
-
-<span class="logo-text">ODDNEX</span>
+    <button class="btn">Login</button>
 
 </div>
 
-<nav class="menu">
 
-<a href="#">Início</a>
+<div class="center">
 
-<a href="#">Palpites</a>
+    <img src="img/logo.png">
 
-<a href="#">Resultados</a>
+    <h1>Bem-vindo ao ODDNEX</h1>
 
-<a href="login.php" class="btn-login">Login</a>
+    <p>A melhor plataforma de palpites esportivos</p>
 
-</nav>
+    <button class="btn">Ver Palpites</button>
 
-</header>
+</div>
 
-
-<section class="hero">
-
-<h1>
-A evolução dos palpites esportivos
-</h1>
-
-<p>
-Análises profissionais, estatísticas avançadas e os melhores palpites para você lucrar com inteligência.
-</p>
-
-<button class="btn-primary" onclick="irPalpites()">
-VER PALPITES
-</button>
-
-</section>
-
-
-<footer class="footer">
-
-© 2026 ODDNEX — Todos os direitos reservados
-
-</footer>
-
-
-<script src="js/script.js"></script>
 
 </body>
 </html>

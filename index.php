@@ -1,38 +1,27 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-<meta charset="UTF-8">
-<title>ODDNEX</title>
+    <meta charset="UTF-8">
+    <title>ODDNEX</title>
 
-<link rel="stylesheet" href="CSS/style.css">
+    <link rel="stylesheet" href="CSS/style.css">
 
 </head>
 <body>
 
-<div class="navbar">
+<header class="header">
 
-    <div class="logo">
-        <img src="img/logo.png">
-        <span>ODDNEX</span>
-    </div>
+    <img src="imagem/logo.png" alt="ODDNEX Logo" class="logo">
 
-    <button class="btn">Login</button>
+    <h1>Bem-vindo à ODDNEX</h1>
 
-</div>
+    <p>A melhor plataforma de análise de odds esportivas</p>
 
+    <button onclick="irPalpites()">Ver Palpites</button>
 
-<div class="center">
+</header>
 
-    <img src="img/logo.png">
-
-    <h1>Bem-vindo ao ODDNEX</h1>
-
-    <p>A melhor plataforma de palpites esportivos</p>
-
-    <button class="btn">Ver Palpites</button>
-
-</div>
-
+<script src="js/script.js"></script>
 
 </body>
 </html>

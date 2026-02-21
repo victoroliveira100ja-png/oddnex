@@ -1,4 +1,6 @@
 function irPalpites()
 {
-alert("Área de palpites em construção...");
+
+    alert("Página de palpites em breve 🚀");
+
 }

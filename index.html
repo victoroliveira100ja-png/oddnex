@@ -28,7 +28,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 10px 8%;
+      padding: 20px 8%;
       background: rgba(11, 15, 26, 0.95);
       backdrop-filter: blur(10px);
       position: sticky;
@@ -37,22 +37,19 @@
       border-bottom: 1px solid rgba(255,255,255,0.05);
     }
 
-    .logo-link {
-      display: flex;
-      align-items: center;
+    /* Nome ODDNEX Destacado no Topo */
+    .logo-texto {
       text-decoration: none;
+      font-weight: 800;
+      font-size: 26px; /* Tamanho maior para destaque */
+      color: white;
+      letter-spacing: 1px;
+      text-transform: uppercase;
     }
 
-    /* Logo maior no topo, substituindo o texto */
-    .logo-img-topo { 
-      height: 70px; /* Tamanho ampliado para destaque */
-      width: auto;
-      display: block;
-      transition: transform 0.3s ease;
-    }
-
-    .logo-img-topo:hover {
-      transform: scale(1.05);
+    .logo-texto span { 
+      color: var(--accent-blue); 
+      text-shadow: 0 0 15px rgba(30, 144, 255, 0.5);
     }
 
     .btn-cta {
@@ -63,15 +60,13 @@
       text-decoration: none;
       font-weight: 700;
       transition: 0.3s;
-      box-shadow: 0 4px 15px rgba(30, 144, 255, 0.3);
     }
 
-    /* HERO SECTION CENTRALIZADA */
+    /* HERO SECTION COM A IMAGEM CENTRALIZADA */
     .hero {
       position: relative;
       text-align: center;
-      padding: 80px 20px;
-      /* Imagem de fundo centralizada conforme solicitado */
+      padding: 100px 20px;
       background: 
         linear-gradient(rgba(11, 15, 26, 0.8), rgba(11, 15, 26, 0.8)), 
         url('logo-hero.jpg'); 
@@ -90,7 +85,6 @@
       margin-bottom: 30px;
       max-width: 1100px;
       line-height: 1.1;
-      letter-spacing: -1px;
     }
 
     .hero h1 span { color: var(--accent-blue); }
@@ -117,8 +111,8 @@
 <body>
 
   <nav class="navbar">
-    <a href="index.html" class="logo-link">
-      <img src="logo-hero.jpg" alt="Logo ODDNEX" class="logo-img-topo">
+    <a href="index.html" class="logo-texto">
+      ODD<span>NEX</span>
     </a>
     <a href="#" class="btn-cta">Entrar na Conta</a>
   </nav>

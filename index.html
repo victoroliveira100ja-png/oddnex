@@ -28,7 +28,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 20px 8%;
+      padding: 10px 8%;
       background: rgba(11, 15, 26, 0.95);
       backdrop-filter: blur(10px);
       position: sticky;
@@ -37,24 +37,23 @@
       border-bottom: 1px solid rgba(255,255,255,0.05);
     }
 
-    .logo {
+    .logo-link {
       display: flex;
       align-items: center;
-      gap: 12px;
       text-decoration: none;
-      font-weight: 800;
-      font-size: 22px;
-      color: white;
     }
 
-    /* AJUSTE AQUI: Tamanho da logo no topo */
-    .logo img { 
-      height: 30px; 
+    /* Logo maior no topo, substituindo o texto */
+    .logo-img-topo { 
+      height: 70px; /* Tamanho ampliado para destaque */
       width: auto;
-      object-fit: contain;
+      display: block;
+      transition: transform 0.3s ease;
     }
-    
-    .logo span { color: var(--accent-blue); }
+
+    .logo-img-topo:hover {
+      transform: scale(1.05);
+    }
 
     .btn-cta {
       background: linear-gradient(135deg, #1e90ff, #0066ff);
@@ -71,10 +70,11 @@
     .hero {
       position: relative;
       text-align: center;
-      padding: 60px 20px;
+      padding: 80px 20px;
+      /* Imagem de fundo centralizada conforme solicitado */
       background: 
         linear-gradient(rgba(11, 15, 26, 0.8), rgba(11, 15, 26, 0.8)), 
-        url('logo-hero.jpg'); /* Imagem de fundo na raiz */
+        url('logo-hero.jpg'); 
       background-size: cover;
       background-position: center;
       display: flex;
@@ -90,6 +90,7 @@
       margin-bottom: 30px;
       max-width: 1100px;
       line-height: 1.1;
+      letter-spacing: -1px;
     }
 
     .hero h1 span { color: var(--accent-blue); }
@@ -100,6 +101,7 @@
       font-size: clamp(1.1rem, 2vw, 1.4rem);
       line-height: 1.7;
       margin-bottom: 50px;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.5);
     }
 
     footer {
@@ -115,9 +117,8 @@
 <body>
 
   <nav class="navbar">
-    <a href="index.html" class="logo">
-      <img src="logo-hero.jpg" alt="ODDNEX Logo">
-      ODD<span>NEX</span>
+    <a href="index.html" class="logo-link">
+      <img src="logo-hero.jpg" alt="Logo ODDNEX" class="logo-img-topo">
     </a>
     <a href="#" class="btn-cta">Entrar na Conta</a>
   </nav>
@@ -135,7 +136,8 @@
   </section>
 
   <footer>
-    © 2026 ODDNEX — Inteligência de Dados Aplicada ao Mercado Esportivo.
+    © 2026 ODDNEX — Inteligência de Dados Aplicada ao Mercado Esportivo. <br>
+    A informação é a sua maior ferramenta. Use com estratégia.
   </footer>
 
 </body>

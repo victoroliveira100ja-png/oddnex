@@ -11,6 +11,7 @@
     :root {
       --bg-dark: #0b0f1a;
       --accent-blue: #1e90ff;
+      --text-gray: #94a3b8;
     }
 
     html, body {
@@ -20,7 +21,6 @@
       padding: 0;
       font-family: 'Inter', sans-serif;
       overflow-x: hidden;
-      height: 100%;
     }
 
     /* NAVBAR */
@@ -37,38 +37,42 @@
       border-bottom: 1px solid rgba(255,255,255,0.05);
     }
 
-    /* Nome ODDNEX Destacado no Topo */
     .logo-texto {
       text-decoration: none;
       font-weight: 800;
-      font-size: 26px; /* Tamanho maior para destaque */
+      font-size: 28px;
       color: white;
       letter-spacing: 1px;
-      text-transform: uppercase;
     }
 
     .logo-texto span { 
       color: var(--accent-blue); 
-      text-shadow: 0 0 15px rgba(30, 144, 255, 0.5);
+      text-shadow: 0 0 15px rgba(30, 144, 255, 0.6);
     }
 
-    .btn-cta {
-      background: linear-gradient(135deg, #1e90ff, #0066ff);
+    .btn-entrar {
+      background: transparent;
       color: white;
-      padding: 12px 24px;
+      padding: 10px 25px;
       border-radius: 8px;
       text-decoration: none;
-      font-weight: 700;
+      font-weight: 600;
+      border: 1px solid var(--accent-blue);
       transition: 0.3s;
     }
 
-    /* HERO SECTION COM A IMAGEM CENTRALIZADA */
+    .btn-entrar:hover {
+      background: var(--accent-blue);
+      box-shadow: 0 0 15px rgba(30, 144, 255, 0.4);
+    }
+
+    /* HERO SECTION */
     .hero {
       position: relative;
       text-align: center;
-      padding: 100px 20px;
+      padding: 120px 20px;
       background: 
-        linear-gradient(rgba(11, 15, 26, 0.8), rgba(11, 15, 26, 0.8)), 
+        linear-gradient(rgba(11, 15, 26, 0.85), rgba(11, 15, 26, 0.85)), 
         url('logo-hero.jpg'); 
       background-size: cover;
       background-position: center;
@@ -76,14 +80,13 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      min-height: calc(100vh - 160px);
     }
 
     .hero h1 {
-      font-size: clamp(2.2rem, 6vw, 4rem);
+      font-size: clamp(2.5rem, 6vw, 4rem);
       font-weight: 800;
-      margin-bottom: 30px;
-      max-width: 1100px;
+      margin-bottom: 25px;
+      max-width: 1000px;
       line-height: 1.1;
     }
 
@@ -91,20 +94,59 @@
 
     .hero p {
       color: #cbd5e1;
-      max-width: 850px;
-      font-size: clamp(1.1rem, 2vw, 1.4rem);
-      line-height: 1.7;
-      margin-bottom: 50px;
-      text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+      max-width: 750px;
+      font-size: 1.25rem;
+      line-height: 1.6;
+      margin-bottom: 40px;
     }
+
+    .btn-cta-principal {
+      background: linear-gradient(135deg, #1e90ff, #0066ff);
+      color: white;
+      padding: 18px 45px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 1.1rem;
+      transition: 0.3s;
+      box-shadow: 0 4px 15px rgba(30, 144, 255, 0.3);
+    }
+
+    /* SEÇÃO DE EXPLICAÇÃO (CARDS) */
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      padding: 80px 8%;
+      background: var(--bg-dark);
+    }
+
+    .card {
+      background: rgba(15, 23, 42, 0.6);
+      padding: 40px;
+      border-radius: 20px;
+      border: 1px solid rgba(255,255,255,0.05);
+      transition: 0.3s;
+    }
+
+    .card:hover {
+      transform: translateY(-10px);
+      border-color: var(--accent-blue);
+    }
+
+    .card h3 { color: var(--accent-blue); margin-bottom: 15px; font-size: 1.5rem; }
+    .card p { color: var(--text-gray); line-height: 1.7; margin-bottom: 15px; }
+    
+    .card ul { padding: 0; list-style: none; color: #e2e8f0; font-size: 0.9rem; }
+    .card li { margin-bottom: 10px; display: flex; align-items: center; gap: 8px; }
+    .card li::before { content: "✓"; color: var(--accent-blue); font-weight: bold; }
 
     footer {
       text-align: center;
-      padding: 40px 20px;
+      padding: 50px 20px;
       color: #526175;
       font-size: 13px;
       border-top: 1px solid rgba(255,255,255,0.05);
-      background: #080b13;
     }
   </style>
 </head>
@@ -114,24 +156,55 @@
     <a href="index.html" class="logo-texto">
       ODD<span>NEX</span>
     </a>
-    <a href="#" class="btn-cta">Entrar na Conta</a>
+    <a href="#" class="btn-entrar">ENTRAR</a>
   </nav>
 
   <section class="hero">
-    <h1>Transforme Dados Brutos em <br><span>Vantagem Competitiva</span></h1>
+    <h1>Domine o Mercado com <br><span>Dados e Precisão</span></h1>
     
     <p>
-      A ODDNEX é uma plataforma de elite desenvolvida para investidores esportivos que buscam profissionalismo. Através de algoritmos proprietários, processamos milhares de variáveis por segundo para filtrar as oportunidades de maior valor esperado no mercado global.
+      A ODDNEX é um ecossistema de inteligência aplicada ao esporte. Unimos algoritmos de Machine Learning com análise estatística avançada para entregar clareza e lucro.
     </p>
 
-    <a href="#" class="btn-cta" style="padding: 20px 50px; font-size: 1.2rem;">
-      ACESSAR PLATAFORMA AGORA
+    <a href="#" class="btn-cta-principal">
+      ACESSAR PLATAFORMA
     </a>
   </section>
 
+  <section class="features">
+    <div class="card">
+      <h3>📊 Data Engine</h3>
+      <p>Nosso motor de dados processa milhares de eventos mensais em tempo real, cobrindo as principais ligas do mundo.</p>
+      <ul>
+        <li>Odds em tempo real</li>
+        <li>Alertas de variações bruscas</li>
+        <li>Histórico detalhado</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>⚡ Predictor PRO</h3>
+      <p>Algoritmos que calculam a probabilidade real de um evento, comparando-a com as odds oferecidas pelo mercado.</p>
+      <ul>
+        <li>Identificação de Valor (+)</li>
+        <li>Projeções de escanteios</li>
+        <li>Cálculo de variância</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>🔒 Hub de Segurança</h3>
+      <p>Ambiente criptografado e rápido, garantindo que a informação estratégica chegue antes da subida da linha.</p>
+      <ul>
+        <li>Latência mínima</li>
+        <li>Gestão de banca integrada</li>
+        <li>Relatórios de performance</li>
+      </ul>
+    </div>
+  </section>
+
   <footer>
-    © 2026 ODDNEX — Inteligência de Dados Aplicada ao Mercado Esportivo. <br>
-    A informação é a sua maior ferramenta. Use com estratégia.
+    © 2026 ODDNEX — Inteligência de Dados Aplicada ao Mercado Esportivo.
   </footer>
 
 </body>

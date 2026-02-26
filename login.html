@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>ODDNEX — Acesso Inteligente</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Poppins:wght@700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --accent-blue: #1e90ff;
+      --deep-blue: #0066ff;
+      --bg-dark: #05070a;
+      --glass: rgba(11, 15, 26, 0.85);
+      --border: rgba(255, 255, 255, 0.1);
+      --text: #f0f6fc;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      height: 100vh;
+      background: 
+        linear-gradient(rgba(5, 7, 10, 0.8), rgba(5, 7, 10, 0.8)), 
+        url('logo-hero.jpg');
+      background-size: cover;
+      background-position: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Inter', sans-serif;
+      color: var(--text);
+    }
+
+    .login-card {
+      width: 100%;
+      max-width: 420px;
+      padding: 50px 40px;
+      background: var(--glass);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+      text-align: center;
+      position: relative;
+    }
+
+    .logo {
+      font-family: 'Poppins', sans-serif;
+      font-size: 32px;
+      margin-bottom: 8px;
+      font-weight: 800;
+    }
+
+    .logo span { color: var(--accent-blue); }
+
+    .subtitle {
+      font-size: 14px;
+      color: #94a3b8;
+      margin-bottom: 35px;
+    }
+
+    .field {
+      text-align: left;
+      margin-bottom: 20px;
+    }
+
+    .field label {
+      display: block;
+      font-size: 11px;
+      font-weight: 700;
+      color: #94a3b8;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
+
+    .field input {
+      width: 100%;
+      padding: 14px 16px;
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      color: white;
+      font-size: 15px;
+      outline: none;
+    }
+
+    .field input:focus { border-color: var(--accent-blue); }
+
+    .btn-login {
+      width: 100%;
+      padding: 16px;
+      border-radius: 12px;
+      border: none;
+      font-weight: 800;
+      font-size: 15px;
+      cursor: pointer;
+      color: white;
+      background: linear-gradient(135deg, var(--accent-blue), var(--deep-blue));
+      margin-top: 15px;
+    }
+
+    .back-btn {
+      display: inline-block;
+      margin-top: 25px;
+      font-size: 13px;
+      color: #64748b;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+
+<div class="login-card">
+  <div class="logo">ODD<span>NEX</span></div>
+  <div class="subtitle">Área de Inteligência Esportiva</div>
+
+  <form action="processa_login.php" method="POST">
+    <div class="field">
+      <label>Usuário ou E-mail</label>
+      <input type="text" name="usuario" required placeholder="Seu usuário">
+    </div>
+
+    <div class="field">
+      <label>Senha</label>
+      <input type="password" name="senha" required placeholder="••••••••">
+    </div>
+
+    <button type="submit" class="btn-login">ENTRAR NO SISTEMA</button>
+  </form>
+  
+  <a href="index.html" class="back-btn">← Voltar para a Home</a>
+</div>
+
+</body>
+</html>

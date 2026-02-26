@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ODDNEX - Dashboard de Inteligência</title>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --primary: #1e90ff; /* Azul ODDNEX */
+      --primary-bright: #00e0ff;
+      --bg: #05070a;
+      --card-bg: #0b111a;
+      --border: rgba(255, 255, 255, 0.08);
+      --green: #00ff88;
+      --red: #ff4757;
+      --whatsapp: #25d366;
+      --gradient: linear-gradient(135deg, #1e90ff 0%, #0066ff 100%);
+    }
+
+    /* Estilos Gerais (Reset e Scroll) */
+    * { box-sizing: border-box; }
+    body {
+      background-color: var(--bg);
+      background-image: radial-gradient(circle at 50% -20%, #101e4a, transparent);
+      color: #f0f6fc;
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* SIDEBAR ODDNEX */
+    .sidebar { 
+      width: 280px; 
+      background: #070a0f; 
+      border-right: 1px solid var(--border); 
+      display: flex; 
+      flex-direction: column; 
+      transition: 0.3s; 
+      z-index: 1000;
+    }
+    .sidebar.closed { width: 0; border-right: none; overflow: hidden; }
+    
+    .sidebar-header { 
+      padding: 30px 20px; 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center; 
+      border-bottom: 1px solid var(--border); 
+    }
+    .sidebar-header h2 { margin: 0; font-size: 1.4rem; font-weight: 900; letter-spacing: 1px; }
+    .sidebar-header h2 span { color: var(--primary); }
+
+    .sidebar-menu { flex: 1; overflow-y: auto; padding: 15px; }
+    .menu-label { font-size: 10px; color: var(--primary); font-weight: 800; margin: 25px 0 10px 10px; text-transform: uppercase; letter-spacing: 1px; }
+
+    .camp-btn {
+      width: 100%; background: transparent; color: #8b949e; border: none; padding: 12px 15px; 
+      border-radius: 10px; margin-bottom: 4px; text-align: left; cursor: pointer; 
+      font-weight: 600; transition: 0.2s; display: flex; align-items: center; gap: 10px;
+    }
+    .camp-btn:hover { background: rgba(30, 144, 255, 0.1); color: white; }
+    .camp-btn.active { color: white; background: var(--gradient); box-shadow: 0 4px 15px rgba(30, 144, 255, 0.3); }
+
+    /* MAIN CONTENT */
+    .main-content { flex: 1; display: flex; flex-direction: column; position: relative; }
+    
+    .top-bar { 
+      padding: 15px 25px; 
+      background: rgba(11, 17, 26, 0.95); 
+      backdrop-filter: blur(10px); 
+      border-bottom: 1px solid var(--border); 
+      display: flex; 
+      align-items: center; 
+      gap: 20px; 
+    }
+
+    .calc-topbar { 
+      display: flex; 
+      align-items: center; 
+      gap: 12px; 
+      background: #111827; 
+      padding: 8px 15px; 
+      border-radius: 12px; 
+      border: 1px solid var(--border); 
+    }
+    .calc-topbar input { width: 70px; background: #05070a; border: 1px solid var(--primary); padding: 6px; border-radius: 6px; color: white; text-align: center; }
+
+    .content-scroll { flex: 1; padding: 30px; overflow-y: auto; display: flex; flex-direction: column; align-items: center; }
+
+    /* CARDS DE PALPITE */
+    .welcome-card {
+      width: 100%; max-width: 750px; 
+      background: linear-gradient(180deg, rgba(30, 144, 255, 0.1) 0%, rgba(5, 7, 10, 0.9) 100%); 
+      border: 1px solid rgba(30, 144, 255, 0.2); 
+      padding: 50px 30px; border-radius: 30px; text-align: center; margin-bottom: 30px;
+    }
+    .welcome-card h1 { font-size: 2.5rem; font-weight: 900; margin: 0; }
+    .welcome-card span { color: var(--primary); }
+
+    .card { 
+      width: 100%; max-width: 650px; 
+      background: var(--card-bg); 
+      border: 1px solid var(--border); 
+      border-radius: 20px; padding: 25px; margin-bottom: 25px;
+      transition: 0.3s;
+    }
+    .card:hover { border-color: var(--primary); transform: translateY(-3px); }
+
+    .entrada-box { 
+      background: #070a0f; 
+      border-left: 5px solid var(--primary); 
+      padding: 20px; border-radius: 12px; margin: 15px 0; 
+    }
+
+    .radar-bar-bg { width: 100%; height: 6px; background: rgba(255,255,255,0.05); border-radius: 10px; margin-top: 10px; }
+    .radar-bar-fill { height: 100%; background: var(--gradient); border-radius: 10px; }
+
+    .btn-logout { 
+      background: transparent; color: #ff4757; border: 1px solid #ff4757; 
+      padding: 8px 15px; border-radius: 8px; cursor: pointer; font-weight: bold; 
+    }
+
+    /* MOBILE */
+    @media (max-width: 768px) {
+      .sidebar { position: fixed; height: 100%; left: 0; top: 0; }
+      .calc-topbar { display: none; } /* Oculta na mobile para caber tudo */
+    }
+  </style>
+</head>
+<body>
+
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <h2>ODD<span>NEX</span></h2>
+      <button style="background:none; border:none; color:white; cursor:pointer;" onclick="toggleSidebar()">☰</button>
+    </div>
+    <div class="sidebar-menu">
+        <div class="menu-label">Filtros de Elite</div>
+        <button class="camp-btn active" onclick="limparFiltros()">📊 Todos os Jogos</button>
+        <button class="camp-btn" onclick="filtrarStatus('AO VIVO')">📡 Ao Vivo</button>
+        
+        <div class="menu-label">Principais Ligas</div>
+        <button class="camp-btn" onclick="filtrarCamp('Brasileirão')">⚽ Brasileirão</button>
+        <button class="camp-btn" onclick="filtrarCamp('Premier League')">🏴󠁧󠁢󠁥󠁮󠁧󠁿 Premier League</button>
+        <button class="camp-btn" onclick="filtrarCamp('Champions League')">🏆 Champions League</button>
+    </div>
+  </aside>
+
+  <main class="main-content">
+    <div class="top-bar">
+      <input type="text" id="busca" placeholder="🔍 Buscar jogo..." style="background:#0d1117; border:1px solid var(--border); padding:10px; border-radius:10px; color:white; width:200px;">
+      
+      <div class="calc-topbar">
+        <span style="font-size: 11px; font-weight: bold; color: var(--primary-bright);">GESTÃO R$</span>
+        <input type="number" id="bancaValor" placeholder="100" oninput="calcularStake()">
+        <div style="font-size:10px;">Stake 2%: <span id="stake2" style="color:var(--green);">R$ 0,00</span></div>
+        <div style="font-size:10px;">Stake 5%: <span id="stake5" style="color:var(--green);">R$ 0,00</span></div>
+      </div>
+
+      <div style="margin-left: auto;">
+        <button class="btn-logout" onclick="window.location.href='login.html'">SAIR</button>
+      </div>
+    </div>
+
+    <div class="content-scroll">
+      <div class="welcome-card">
+        <h1>BEM-VINDO À <span>ODDNEX</span></h1>
+        <p>Inteligência de dados aplicada ao mercado esportivo em tempo real.</p>
+      </div>
+
+      <div id="lista-palpites" style="width:100%; display:flex; flex-direction:column; align-items:center;">
+        
+        <div class="card">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                <span style="color:#8b949e; font-size:12px;">Premier League • 16:00</span>
+                <span style="background:var(--primary); padding:4px 10px; border-radius:6px; font-size:10px; font-weight:bold;">ANALISADO</span>
+            </div>
+            <h2 style="margin:5px 0;">Arsenal x Liverpool</h2>
+            <div class="entrada-box">
+                <div style="font-size:1.4rem; font-weight:800;">Over 2.5 Gols</div>
+                <div style="display:flex; justify-content:space-between; margin-top:10px;">
+                    <span style="color:var(--green); font-weight:bold;">ODD 1.85</span>
+                    <span style="font-size:12px;">88% de Confiança</span>
+                </div>
+                <div class="radar-bar-bg"><div class="radar-bar-fill" style="width:88%"></div></div>
+            </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <script>
+    function toggleSidebar() {
+      document.getElementById('sidebar').classList.toggle('closed');
+    }
+
+    function calcularStake() {
+      const banca = document.getElementById('bancaValor').value;
+      document.getElementById('stake2').innerText = 'R$ ' + (banca * 0.02).toFixed(2);
+      document.getElementById('stake5').innerText = 'R$ ' + (banca * 0.05).toFixed(2);
+    }
+
+    // A lógica de filtros aqui deve ser adaptada para recarregar a página com parâmetros PHP 
+    // Ex: window.location.href = 'dashboard.php?campeonato=brasileirao';
+  </script>
+</body>
+</html>

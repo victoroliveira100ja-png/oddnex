@@ -22,7 +22,6 @@
     body {
       margin: 0;
       height: 100vh;
-      /* Certifique-se de que a imagem logo-hero.jpg esteja na mesma pasta no GitHub */
       background: 
         linear-gradient(rgba(5, 7, 10, 0.8), rgba(5, 7, 10, 0.8)), 
         url('logo-hero.jpg');
@@ -33,6 +32,7 @@
       justify-content: center;
       font-family: 'Inter', sans-serif;
       color: var(--text);
+      overflow: hidden;
     }
 
     .login-card {
@@ -131,12 +131,12 @@
   <form onsubmit="event.preventDefault(); window.location.href='painel.html';">
     <div class="field">
       <label>Usuário ou E-mail</label>
-      <input type="text" name="usuario" required placeholder="Digite qualquer usuário">
+      <input type="text" required placeholder="Digite qualquer usuário">
     </div>
 
     <div class="field">
       <label>Senha</label>
-      <input type="password" name="senha" required placeholder="Digite qualquer senha">
+      <input type="password" required placeholder="••••••••">
     </div>
 
     <button type="submit" class="btn-login">ENTRAR NO SISTEMA</button>

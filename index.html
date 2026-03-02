@@ -72,8 +72,11 @@
       position: relative;
       text-align: center;
       padding: 140px 20px;
-      /* Removi a imagem de fundo para evitar erro 404 se o arquivo não existir */
-      background: linear-gradient(rgba(11, 15, 26, 0.9), rgba(11, 15, 26, 0.9)); 
+      background: 
+        linear-gradient(rgba(11, 15, 26, 0.85), rgba(11, 15, 26, 0.85)), 
+        url('logo-hero.jpg'); 
+      background-size: cover;
+      background-position: center;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -115,7 +118,7 @@
         box-shadow: 0 6px 25px rgba(30, 144, 255, 0.5);
     }
 
-    /* CARDS */
+    /* CARDS DE EXPLICAÇÃO */
     .features {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));

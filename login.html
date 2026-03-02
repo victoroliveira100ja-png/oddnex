@@ -22,6 +22,7 @@
     body {
       margin: 0;
       height: 100vh;
+      /* Certifique-se de que a imagem logo-hero.jpg esteja na mesma pasta no GitHub */
       background: 
         linear-gradient(rgba(5, 7, 10, 0.8), rgba(5, 7, 10, 0.8)), 
         url('logo-hero.jpg');
@@ -85,9 +86,10 @@
       color: white;
       font-size: 15px;
       outline: none;
+      transition: 0.3s;
     }
 
-    .field input:focus { border-color: var(--accent-blue); }
+    .field input:focus { border-color: var(--accent-blue); background: rgba(0, 0, 0, 0.5); }
 
     .btn-login {
       width: 100%;
@@ -100,6 +102,12 @@
       color: white;
       background: linear-gradient(135deg, var(--accent-blue), var(--deep-blue));
       margin-top: 15px;
+      transition: 0.3s;
+    }
+
+    .btn-login:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(30, 144, 255, 0.3);
     }
 
     .back-btn {
@@ -108,7 +116,10 @@
       font-size: 13px;
       color: #64748b;
       text-decoration: none;
+      transition: 0.3s;
     }
+
+    .back-btn:hover { color: var(--text); }
   </style>
 </head>
 <body>
@@ -117,15 +128,15 @@
   <div class="logo">ODD<span>NEX</span></div>
   <div class="subtitle">Área de Inteligência Esportiva</div>
 
-  <form action="processa_login.php" method="POST">
+  <form onsubmit="event.preventDefault(); window.location.href='painel.html';">
     <div class="field">
       <label>Usuário ou E-mail</label>
-      <input type="text" name="usuario" required placeholder="Seu usuário">
+      <input type="text" name="usuario" required placeholder="Digite qualquer usuário">
     </div>
 
     <div class="field">
       <label>Senha</label>
-      <input type="password" name="senha" required placeholder="••••••••">
+      <input type="password" name="senha" required placeholder="Digite qualquer senha">
     </div>
 
     <button type="submit" class="btn-login">ENTRAR NO SISTEMA</button>

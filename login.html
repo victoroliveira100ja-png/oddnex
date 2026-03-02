@@ -1,112 +1,149 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
+  <title>ODDNEX — Acesso Inteligente</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ODDNEX - Login</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Poppins:wght@700&display=swap" rel="stylesheet">
+
   <style>
     :root {
-      --bg-dark: #05070a;
-      --card-bg: #0b111a;
       --accent-blue: #1e90ff;
-      --text-gray: #94a3b8;
+      --deep-blue: #0066ff;
+      --bg-dark: #05070a;
+      --glass: rgba(11, 15, 26, 0.85);
+      --border: rgba(255, 255, 255, 0.1);
+      --text: #f0f6fc;
     }
 
+    * { box-sizing: border-box; }
+
     body {
-      background-color: var(--bg-dark);
-      background-image: radial-gradient(circle at 50% 50%, #101e4a, transparent);
-      color: white;
-      font-family: 'Inter', sans-serif;
       margin: 0;
+      height: 100vh;
+      /* Certifique-se de que a imagem logo-hero.jpg esteja na mesma pasta no GitHub */
+      background: 
+        linear-gradient(rgba(5, 7, 10, 0.8), rgba(5, 7, 10, 0.8)), 
+        url('logo-hero.jpg');
+      background-size: cover;
+      background-position: center;
       display: flex;
       align-items: center;
       justify-content: center;
-      height: 100vh;
-      padding: 20px;
+      font-family: 'Inter', sans-serif;
+      color: var(--text);
     }
 
-    .login-container {
-      background: var(--card-bg);
-      padding: 40px;
+    .login-card {
+      width: 100%;
+      max-width: 420px;
+      padding: 50px 40px;
+      background: var(--glass);
+      border: 1px solid var(--border);
       border-radius: 24px;
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      width: 100%;
-      max-width: 400px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.6);
       text-align: center;
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+      position: relative;
     }
 
-    .logo-login {
+    .logo {
+      font-family: 'Poppins', sans-serif;
       font-size: 32px;
+      margin-bottom: 8px;
       font-weight: 800;
-      margin-bottom: 10px;
     }
 
-    .logo-login span { color: var(--accent-blue); }
+    .logo span { color: var(--accent-blue); }
 
-    p { color: var(--text-gray); margin-bottom: 30px; font-size: 14px; }
+    .subtitle {
+      font-size: 14px;
+      color: #94a3b8;
+      margin-bottom: 35px;
+    }
 
-    .input-group { text-align: left; margin-bottom: 20px; }
+    .field {
+      text-align: left;
+      margin-bottom: 20px;
+    }
 
-    label { display: block; font-size: 12px; color: var(--accent-blue); font-weight: 600; margin-bottom: 8px; text-transform: uppercase; }
+    .field label {
+      display: block;
+      font-size: 11px;
+      font-weight: 700;
+      color: #94a3b8;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+    }
 
-    input {
+    .field input {
       width: 100%;
-      padding: 12px 15px;
-      background: #0d1117;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 8px;
+      padding: 14px 16px;
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid var(--border);
+      border-radius: 12px;
       color: white;
+      font-size: 15px;
       outline: none;
       transition: 0.3s;
-      box-sizing: border-box;
     }
 
-    input:focus { border-color: var(--accent-blue); box-shadow: 0 0 10px rgba(30, 144, 255, 0.2); }
+    .field input:focus { border-color: var(--accent-blue); background: rgba(0, 0, 0, 0.5); }
 
     .btn-login {
       width: 100%;
-      padding: 14px;
-      background: linear-gradient(135deg, #1e90ff, #0066ff);
+      padding: 16px;
+      border-radius: 12px;
       border: none;
-      border-radius: 8px;
-      color: white;
-      font-weight: 700;
-      font-size: 16px;
+      font-weight: 800;
+      font-size: 15px;
       cursor: pointer;
+      color: white;
+      background: linear-gradient(135deg, var(--accent-blue), var(--deep-blue));
+      margin-top: 15px;
       transition: 0.3s;
-      margin-top: 10px;
     }
 
-    .btn-login:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(30, 144, 255, 0.4); }
+    .btn-login:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(30, 144, 255, 0.3);
+    }
 
-    .back-link { display: block; margin-top: 25px; color: var(--text-gray); text-decoration: none; font-size: 13px; }
-    .back-link:hover { color: white; }
+    .back-btn {
+      display: inline-block;
+      margin-top: 25px;
+      font-size: 13px;
+      color: #64748b;
+      text-decoration: none;
+      transition: 0.3s;
+    }
+
+    .back-btn:hover { color: var(--text); }
   </style>
 </head>
 <body>
 
-  <div class="login-container">
-    <div class="logo-login">ODD<span>NEX</span></div>
-    <p>Acesse o simulador de inteligência.</p>
+<div class="login-card">
+  <div class="logo">ODD<span>NEX</span></div>
+  <div class="subtitle">Área de Inteligência Esportiva</div>
 
-    <form onsubmit="event.preventDefault(); window.location.href='painel.html';">
-      <div class="input-group">
-        <label>E-mail ou Usuário</label>
-        <input type="text" placeholder="Digite qualquer e-mail" required>
-      </div>
+  <form onsubmit="event.preventDefault(); window.location.href='painel.html';">
+    <div class="field">
+      <label>Usuário ou E-mail</label>
+      <input type="text" name="usuario" required placeholder="Digite qualquer usuário">
+    </div>
 
-      <div class="input-group">
-        <label>Senha</label>
-        <input type="password" placeholder="Digite qualquer senha" required>
-      </div>
+    <div class="field">
+      <label>Senha</label>
+      <input type="password" name="senha" required placeholder="Digite qualquer senha">
+    </div>
 
-      <button type="submit" class="btn-login">ACESSAR PAINEL</button>
-    </form>
-
-    <a href="index.html" class="back-link">← Voltar ao início</a>
-  </div>
+    <button type="submit" class="btn-login">ENTRAR NO SISTEMA</button>
+  </form>
+  
+  <a href="index.html" class="back-btn">← Voltar para a Home</a>
+</div>
 
 </body>
 </html>
